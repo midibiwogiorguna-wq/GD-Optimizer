@@ -1,8 +1,60 @@
-
 #include <Geode/Geode.hpp>
 #include <Geode/modify/PlayLayer.hpp>
+#include <Geode/modify/CCParticleSystemQuad.hpp>
+
+#include <atomic>
 
 using namespace geode::prelude;
+
+namespace {
+    // These cached flags keep settings lookups out of the per-frame draw hook.
+    std::atomic_bool g_potatoMode{false};
+    std::atomic_bool g_reduceDenseParticles{false};
+
+    void refreshParticleSettings() {
+        auto mod = Mod::get();
+        g_potatoMode.store(
+            mod->getSettingValue<bool>("potato-mode"),
+            std::memory_order_relaxed
+        );
+        g_reduceDenseParticles.store(
+            mod->getSettingValue<bool>("reduce-particles"),
+            std::memory_order_relaxed
+        );
+    }
+}
+
+$on_mod(Loaded) {
+    refreshParticleSettings();
+
+    listenForSettingChanges<bool>("potato-mode", [](bool) {
+        refreshParticleSettings();
+    });
+
+    listenForSettingChanges<bool>("reduce-particles", [](bool) {
+        refreshParticleSettings();
+    });
+}
+
+// Rendering optimization: skip particle-system draw calls when requested.
+// This intentionally does not stop particle simulation, which can still use CPU.
+class $modify(GDOptimizerParticleSystemQuad, CCParticleSystemQuad) {
+    void draw() {
+        if (g_potatoMode.load(std::memory_order_relaxed)) {
+            return;
+        }
+
+        // Less aggressive than Potato Mode: hide only currently dense systems.
+        if (
+            g_reduceDenseParticles.load(std::memory_order_relaxed) &&
+            this->getParticleCount() >= 12
+        ) {
+            return;
+        }
+
+        CCParticleSystemQuad::draw();
+    }
+};
 
 class $modify(GDOptimizerPlayLayer, PlayLayer) {
     struct Fields {
