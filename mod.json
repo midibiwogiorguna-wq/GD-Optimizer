@@ -5,32 +5,26 @@
   },
   "id": "compgk.gdoptimizer",
   "name": "GD Optimizer",
-  "version": "v1.0.0",
+  "version": "v1.1.0",
   "developer": "CompGk",
-  "description": "Android optimization mod focused on smoother Geometry Dash gameplay.",
+  "description": "Rendering optimizations for Geometry Dash with particle suppression and an FPS/frame-time monitor.",
   "settings": {
     "show-fps": {
       "type": "bool",
       "name": "FPS Monitor",
-      "description": "Enable the performance monitor.",
+      "description": "Show average FPS and frame time during a level.",
       "default": true
     },
     "potato-mode": {
       "type": "bool",
       "name": "Potato Mode",
-      "description": "Enable additional supported optimizations.",
+      "description": "Skip drawing all particle systems. This hides particle visuals; particle simulation may still use CPU.",
       "default": false
     },
     "reduce-particles": {
       "type": "bool",
       "name": "Reduce Particles",
-      "description": "Reduce supported particle effects.",
-      "default": false
-    },
-    "reduce-glow": {
-      "type": "bool",
-      "name": "Reduce Glow",
-      "description": "Reduce supported glow effects.",
+      "description": "Skip drawing particle systems with 12 or more active particles. Less aggressive than Potato Mode.",
       "default": false
     }
   }
