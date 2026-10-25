@@ -1,0 +1,38 @@
+
+{
+  "geode": "$GEODE_VERSION",
+  "gd": {
+    "android": "2.2081"
+  },
+  "id": "compgk.gdoptimizer",
+  "name": "GD Optimizer",
+  "version": "v1.0.0",
+  "developer": "CompGk",
+  "description": "Android optimization mod focused on smoother Geometry Dash gameplay.",
+  "settings": {
+    "show-fps": {
+      "type": "bool",
+      "name": "FPS Monitor",
+      "description": "Enable the performance monitor.",
+      "default": true
+    },
+    "potato-mode": {
+      "type": "bool",
+      "name": "Potato Mode",
+      "description": "Enable additional supported optimizations.",
+      "default": false
+    },
+    "reduce-particles": {
+      "type": "bool",
+      "name": "Reduce Particles",
+      "description": "Reduce supported particle effects.",
+      "default": false
+    },
+    "reduce-glow": {
+      "type": "bool",
+      "name": "Reduce Glow",
+      "description": "Reduce supported glow effects.",
+      "default": false
+    }
+  }
+}
